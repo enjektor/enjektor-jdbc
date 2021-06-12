@@ -4,6 +4,7 @@ import com.github.enesusta.jdbc.datasource.HikariJdbcDataSource;
 import com.github.enesusta.jdbc.datasource.JdbcConfiguration;
 import com.github.enjektor.core.auto.configuration.BeanAutoConfiguration;
 import com.github.enjektor.core.bean.Bean;
+import com.github.enjektor.core.bean.pair.Pair;
 import com.github.enjektor.epel.yaml.converter.ConcreteYamlExporter;
 import com.github.enjektor.epel.yaml.converter.YamlConverter;
 import com.github.enjektor.jdbc.credentials.JdbcCredentials;
@@ -17,12 +18,12 @@ import javax.sql.DataSource;
 public class EnjektorJdbcAutoConfiguration implements BeanAutoConfiguration {
 
     @Override
-    public Bean export() {
+    public Pair export() {
         return export(null);
     }
 
     @Override
-    public Bean export(String profileProperty) {
+    public Pair export(String profileProperty) {
         final YamlConverter yamlConverter = new ConcreteYamlExporter();
         final JdbcCredentialsParser jdbcCredentialsParser = new ConcreteJdbcCredentialsParser();
 
@@ -41,6 +42,9 @@ public class EnjektorJdbcAutoConfiguration implements BeanAutoConfiguration {
         final Bean bean = new Bean(DataSource.class);
         bean.register(DataSource.class.getSimpleName(), dataSource);
 
-        return bean;
+        return Pair.builder()
+                .type(DataSource.class)
+                .bean(bean)
+                .build();
     }
 }
