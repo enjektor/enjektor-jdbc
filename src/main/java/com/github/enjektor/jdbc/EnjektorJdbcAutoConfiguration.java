@@ -2,6 +2,9 @@ package com.github.enjektor.jdbc;
 
 import com.github.enesusta.jdbc.datasource.HikariJdbcDataSource;
 import com.github.enesusta.jdbc.datasource.JdbcConfiguration;
+import com.github.enesusta.jdbc.datasource.JdbcOption;
+import com.github.enesusta.jdbc.datasource.enums.ConnectionOptions;
+import com.github.enesusta.jdbc.datasource.enums.DatabaseType;
 import com.github.enjektor.core.auto.configuration.BeanAutoConfiguration;
 import com.github.enjektor.core.bean.Bean;
 import com.github.enjektor.core.bean.pair.Pair;
@@ -13,6 +16,7 @@ import com.github.enjektor.jdbc.parser.JdbcCredentialsParser;
 import com.google.auto.service.AutoService;
 
 import javax.sql.DataSource;
+import java.util.Arrays;
 
 @AutoService(BeanAutoConfiguration.class)
 public class EnjektorJdbcAutoConfiguration implements BeanAutoConfiguration {
@@ -34,7 +38,14 @@ public class EnjektorJdbcAutoConfiguration implements BeanAutoConfiguration {
                 .username(jdbcCredentials.getUsername())
                 .password(jdbcCredentials.getPassword())
                 .jdbcUrl(jdbcCredentials.getUrl())
+                .type(DatabaseType.POSTGRE)
+                .host(jdbcCredentials.getHost())
+                .selectedDatabase(jdbcCredentials.getDatabase())
+                .options(
+                        Arrays.asList(new JdbcOption(ConnectionOptions.CHARACTER_ENCODING, "utf8"))
+                )
                 .build();
+
 
         final HikariJdbcDataSource jdbcDataSource = new HikariJdbcDataSource(configuration);
         final DataSource dataSource = jdbcDataSource.getDataSource();

@@ -31,12 +31,16 @@ public class ConcreteJdbcCredentialsParser implements JdbcCredentialsParser {
         String url = map.get("enjektor.datasource.url");
         String username = map.get("enjektor.datasource.username");
         String password = map.get("enjektor.datasource.password");
+        String host = map.get("enjektor.datasource.host");
+        String database = map.get("enjektor.datasource.database");
 
         return JdbcCredentials
                 .builder()
                 .url(url)
                 .username(username)
                 .password(password)
+                .host(host)
+                .database(database)
                 .build();
     }
 }
