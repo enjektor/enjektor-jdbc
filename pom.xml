@@ -11,7 +11,7 @@
   </parent>
 
   <artifactId>enjektor-jdbc</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.2.1</version>
 
   <name>enjektor-jdbc</name>
 
